@@ -65,7 +65,7 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
                     <p>Existencia: <b><?php echo $existencia; ?></b></p>
                     <p>Clasificacion: <b><?php echo $clasificacion; ?></b></p>
                     <p>Costo: <b><?php echo $costo; ?></b></p>
-                    <p><a href="home.php" class="btn btn-primary">Regresar</a></p>
+                    <p><a href="productos.php" class="btn btn-primary">Regresar</a></p>
                 </div>
             </div>        
         </div>

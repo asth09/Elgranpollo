@@ -28,9 +28,9 @@
             </div>
             <nav id="nav" class="">
                 <ul>
-                    <li><a href="home.php #inicio" onclick="seleccionar()">INICIO</a></li>
-                    <li><a href="home.php #clientes" onclick="seleccionar()">CLIENTES</a></li>
-                    <li><a href="home.php #productos" onclick="seleccionar()">PRODUCTOS</a></li>
+                    <li><a href="home.php" onclick="seleccionar()">INICIO</a></li>
+                    <li><a href="home.php" onclick="seleccionar()">CLIENTES</a></li>
+                    <li><a href="productos.php" onclick="seleccionar()">PRODUCTOS</a></li>
                     <li><a href="#pedidos" onclick="seleccionar()">PEDIDOS</a></li>
                     <li><a href="despacho.php" onclick="seleccionar()">DESPACHO</a></li>
                     <li><a href="controlador_cerrar_session.php" onclick="seleccionar()">SALIR</a></li>
@@ -66,8 +66,11 @@
                                 echo "<thead>";
                                     echo "<tr>";
                                         echo "<th>id</th>";
-                                        echo "<th>id_cliente</th>";
+                                        echo "<th>codigo_prod</th>";
+                                        echo "<th>nombre_cliente</th>";
                                         echo "<th>fecha</th>";
+                                        echo "<th>cantidad</th>";
+                                        echo "<th>precio</th>";
                                         echo "<th>total_precio</th>";
                                     echo "</tr>";
                                 echo "</thead>";
@@ -75,64 +78,16 @@
                                 while($row = mysqli_fetch_array($result)){
                                     echo "<tr>";
                                         echo "<td>" . $row['id'] . "</td>";
-                                        echo "<td>" . $row['id_cliente'] . "</td>";
+                                        echo "<td>" . $row['codigo_prod'] . "</td>";
+                                        echo "<td>" . $row['nombre_cliente'] . "</td>";
                                         echo "<td>" . $row['fecha'] . "</td>";
+                                        echo "<td>" . $row['cantidad'] . "</td>";
+                                        echo "<td>" . $row['precio'] . "</td>";
                                         echo "<td>" . $row['total_precio'] . "</td>";
                                         echo "<td>";
                                             echo '<a href="read_pedidos.php?id='. $row['id'] .'" class="mr-3" title="Ver registro" data-toggle="tooltip"><span class="fa fa-eye"></span></a>';
                                             echo '<a href="update_pedidos.php?id='. $row['id'] .'" class="mr-3" title="Modificar registro" data-toggle="tooltip"><span class="fa fa-pencil"></span></a>';
                                             echo '<a href="delete_pedidos.php?id='. $row['id'] .'" title="Borrar registro" data-toggle="tooltip"><span class="fa fa-trash"></span></a>';
-                                        echo "</td>";
-                                    echo "</tr>";
-                                }
-                                echo "</tbody>";                            
-                            echo "</table>";
-                            
-                            mysqli_free_result($result);
-                        } else{
-                            echo '<div class="alert alert-danger"><em>Ningun registro encontrado.</em></div>';
-                        }
-                    } else{
-                        echo "Oops! ERROR.. Intente mas tarde";
-                    }
-
-                    // Cerrar coneccion
-                    mysqli_close($conexion);
-                    ?>
-                    <div class="mt-5 mb-3 clearfix">
-                        <h2 class="pull-left" id="pedidos">Pedidos detalles</h2>
-                        <a href="create_pedidos_detalles.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Agregar un pedido</a>
-                    </div>
-
-                    <!-- Copiar desde aqui -->
-                    <?php
-
-                    // Incluir configuracion de la Base de Datos
-                    require_once "config.php";
-                    
-                    $sql = "SELECT * FROM pedido_detalle";
-                    if($result = mysqli_query($conexion, $sql)){
-                        if(mysqli_num_rows($result) > 0){
-                            echo '<table class="table table-bordered table-striped">';
-                                echo "<thead>";
-                                    echo "<tr>";
-                                        echo "<th>id</th>";
-                                        echo "<th>codigo_prod</th>";
-                                        echo "<th>cantidad</th>";
-                                        echo "<th>precio</th>";
-                                    echo "</tr>";
-                                echo "</thead>";
-                                echo "<tbody>";
-                                while($row = mysqli_fetch_array($result)){
-                                    echo "<tr>";
-                                        echo "<td>" . $row['id'] . "</td>";
-                                        echo "<td>" . $row['codigo_prod'] . "</td>";
-                                        echo "<td>" . $row['cantidad'] . "</td>";
-                                        echo "<td>" . $row['precio'] . "</td>";
-                                        echo "<td>";
-                                            echo '<a href="read_pedidos_detalles.php?id='. $row['id'] .'" class="mr-3" title="Ver registro" data-toggle="tooltip"><span class="fa fa-eye"></span></a>';
-                                            echo '<a href="update_pedidos_detalles.php?id='. $row['id'] .'" class="mr-3" title="Modificar registro" data-toggle="tooltip"><span class="fa fa-pencil"></span></a>';
-                                            echo '<a href="delete_pedidos_detalles.php?id='. $row['id'] .'" title="Borrar registro" data-toggle="tooltip"><span class="fa fa-trash"></span></a>';
                                         echo "</td>";
                                     echo "</tr>";
                                 }

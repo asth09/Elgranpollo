@@ -12,7 +12,7 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
         $param_id = trim($_POST["id"]);
         
         if(mysqli_stmt_execute($stmt)){
-            header("location: home.php");
+            header("location: productos.php");
             exit();
         } else{
             echo "ERROR..";
@@ -54,7 +54,7 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
                             <p>¿Esta seguro de eliminar el registro?</p>
                             <p>
                                 <input type="submit" value="Si" class="btn btn-danger">
-                                <a href="home.php" class="btn btn-secondary">No</a>
+                                <a href="productos.php" class="btn btn-secondary">No</a>
                             </p>
                         </div>
                     </form>

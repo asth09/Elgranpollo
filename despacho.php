@@ -28,9 +28,9 @@
             </div>
             <nav id="nav" class="">
                 <ul>
-                    <li><a href="home.php #inicio" onclick="seleccionar()">INICIO</a></li>
-                    <li><a href="home.php #clientes" onclick="seleccionar()">CLIENTES</a></li>
-                    <li><a href="home.php #productos" onclick="seleccionar()">PRODUCTOS</a></li>
+                    <li><a href="home.php" onclick="seleccionar()">INICIO</a></li>
+                    <li><a href="home.php" onclick="seleccionar()">CLIENTES</a></li>
+                    <li><a href="productos.php" onclick="seleccionar()">PRODUCTOS</a></li>
                     <li><a href="pedidos.php" onclick="seleccionar()">PEDIDOS</a></li>
                     <li><a href="despacho.php" onclick="seleccionar()">DESPACHO</a></li>
                     <li><a href="controlador_cerrar_session.php" onclick="seleccionar()">SALIR</a></li>

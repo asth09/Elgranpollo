@@ -47,7 +47,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $param_costo = $costo;
 
         if(mysqli_stmt_execute($stmt)){ //Se manda a ejecutar el comando SQL
-            header("location: home.php");
+            header("location: productos.php");
             exit();
         } else{
             echo "ERROR..";
@@ -109,7 +109,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         </div>
 
                         <input type="submit" class="btn btn-primary" value="Aceptar">
-                        <a href="home.php" class="btn btn-secondary ml-2">Cancelar</a>
+                        <a href="productos.php" class="btn btn-secondary ml-2">Cancelar</a>
                     </form>
 
                 </div>

@@ -1,7 +1,7 @@
 <?php
 
 /* Attempt to connect to MySQL database */
-$conexion = mysqli_connect("localhost","bacoopco_inventario","Mysql2023","bacoopco_inventario");
+$conexion = mysqli_connect("localhost","root","","inventario");
  
 // Check connection
 if($conexion === false){

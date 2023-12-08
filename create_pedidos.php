@@ -2,24 +2,36 @@
 
 require_once "conexion_bd.php";
 
-$id_cliente = "";
+$codigo_prod = "";
+$nombre_cliente = "";
 $fecha = "";
+$cantidad = "";
+$precio = "";
 $total_precio = "";
 
 // Se ejecuta el metodo del formulario
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-    
-    $input_id_cliente = trim($_POST["id_cliente"]);
-    $id_cliente = $input_id_cliente;
+
+    $input_codigo_prod = trim($_POST["codigo_prod"]);
+    $codigo_prod = $input_codigo_prod;
+
+    $input_nombre_cliente = trim($_POST["nombre_cliente"]);
+    $nombre_cliente = $input_nombre_cliente;
         
     $input_fecha = trim($_POST["fecha"]);
     $fecha = $input_fecha;
+
+    $input_cantidad = trim($_POST["cantidad"]);
+    $cantidad = $input_cantidad;
+        
+    $input_precio = trim($_POST["precio"]);
+    $precio = $input_precio;
         
     $input_total_precio = trim($_POST["total_precio"]);
     $total_precio = $input_total_precio;
     
-    $sql = "INSERT INTO pedidos (id_cliente, fecha, total_precio) 
-            VALUES (?, ?, ?)";
+    $sql = "INSERT INTO pedidos (codigo_prod, nombre_cliente, fecha, cantidad, precio, total_precio) 
+            VALUES (?, ?, ?, ?, ?, ?)";
             /* Notese que los valores se colocan como signos ?
                 estos es porque seran sustituidos por los valores de las 
                 variables leidas en el formulario */
@@ -34,11 +46,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         d para DECIMAL
         segun el orden en que se declaran en la funcion
         */
-        mysqli_stmt_bind_param($stmt, "sss", $param_id_cliente, $param_fecha, 
-                                                $param_total_precio);
-        
-        $param_id_cliente = $id_cliente;
+        mysqli_stmt_bind_param($stmt, "ssssss", $param_codigo_prod, $param_nombre_cliente, $param_fecha, 
+                                           $param_cantidad, $param_precio, $param_total_precio);
+
+        $param_codigo_prod = $codigo_prod;
+        $param_nombre_cliente = $nombre_cliente;
         $param_fecha = $fecha;
+        $param_cantidad = $cantidad;
+        $param_precio = $precio;
         $param_total_precio = $total_precio;
 
         if(mysqli_stmt_execute($stmt)){ //Se manda a ejecutar el comando SQL
@@ -79,10 +94,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     <p>Procure ingresar datos correctos. No se validan los datos</p>
                     
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                        <div class="form-group">
-                            <label>Id del cliente</label>
+                    <div class="form-group">
+                            <label>Codigo del producto</label>
                             <br>
-                            <input type="text" name="id_cliente">
+                            <input type="text" name="codigo_prod">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Nombre del cliente</label>
+                            <br>
+                            <input type="text" name="nombre_cliente">
                         </div>
 
                         <div class="form-group">
@@ -90,7 +111,19 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             <br>
                             <input type="text" name="fecha">
                         </div>
+
+                         <div class="form-group">
+                            <label>Cantidad</label>
+                            <br>
+                            <input type="text" name="cantidad">
+                        </div>
                         
+                        <div class="form-group">
+                            <label>Precio</label>
+                            <br>
+                            <input type="text" name="precio">
+                        </div>
+
                         <div class="form-group">
                             <label>Total Precio</label>
                             <br>

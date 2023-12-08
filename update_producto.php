@@ -46,7 +46,7 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
         $param_id = $id;
 
         if(mysqli_stmt_execute($stmt)){
-            header("location: home.php");
+            header("location: productos.php");
             exit();
         } else{
             echo "ERROR..";
@@ -147,7 +147,7 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
 
                         <input type="hidden" name="id" value="<?php echo $id; ?>"/>
                         <input type="submit" class="btn btn-primary" value="Aceptar">
-                        <a href="home.php" class="btn btn-secondary ml-2">Cancelar</a>
+                        <a href="productos.php" class="btn btn-secondary ml-2">Cancelar</a>
                     </form>
                 </div>
             </div>        

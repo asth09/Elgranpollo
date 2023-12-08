@@ -20,9 +20,13 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
 
                 $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 
-                $id_cliente = $row["id_cliente"];
+                $codigo_prod = $row["codigo_prod"];
+                $nombre_cliente = $row["nombre_cliente"];
                 $fecha = $row["fecha"];
+                $cantidad = $row["cantidad"];
+                $precio = $row["precio"];
                 $total_precio = $row["total_precio"];
+                
 
             } else{
                 echo "ERROR..";
@@ -60,8 +64,11 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
             <div class="row">
                 <div class="col-md-12">
                     <h1 class="mt-5 mb-3">Consultar registro</h1>
-                    <p>Id cliente: <b><?php echo $id_cliente; ?></b></p>
+                    <p>Codigo producto: <b><?php echo $codigo_prod; ?></b></p>
+                    <p>Nombre del cliente: <b><?php echo $nombre_cliente; ?></b></p>
                     <p>Fecha: <b><?php echo $fecha; ?></b></p>
+                    <p>Cantidad: <b><?php echo $cantidad; ?></b></p>
+                    <p>Precio: <b><?php echo $precio; ?></b></p>
                     <p>Total precio: <b><?php echo $total_precio; ?></b></p>
 
                     <p><a href="pedidos.php" class="btn btn-primary">Regresar</a></p>
