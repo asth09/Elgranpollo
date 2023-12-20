@@ -11,7 +11,7 @@ if ( !isset($_SESSION['usuario']) ) {
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Productos</title>
+    <title>Entradas auxiliares</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel="shortcut icon" href="LOGO EL GRAN POLLO.png" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -20,7 +20,7 @@ if ( !isset($_SESSION['usuario']) ) {
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script src='main.js'></script>
     <script>
             $(document).ready(function() {
                 $('[data-toggle="tooltip"]').tooltip();
@@ -53,11 +53,13 @@ if ( !isset($_SESSION['usuario']) ) {
     <br>
     <br>
     <br>
-    <div class="producto">
+    <div class="wrapper">
+        <div class="container-fluid">
+            <div class="row">
                 <div class="col-md-12">
                     <div class="mt-5 mb-3 clearfix">
-                        <h2 class="pull-left" id="productos">Productos</h2>
-                        <a href="create_producto.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Agregar un producto</a>
+                        <h2 class="pull-left" id="clientes">Entradas</h2>
+                        <a href="create_entrada.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Agregar una entrada</a>
                     </div>
                     <div class="container-fluid">
                     <form class="d-flex">
@@ -68,37 +70,44 @@ if ( !isset($_SESSION['usuario']) ) {
                   </div>
                   <br>
 
-                    <!-- Pegar aqui dentro -->
-			            <?php
+                    <!-- Copiar desde aqui -->
+                    <?php
 
                     // Incluir configuracion de la Base de Datos
-                    require_once "config.php";
+                    require_once "conexion_bd.php";
+
+                    // Comprobar si el usuario es el administrador
+                    $esAdmin = isset($_SESSION['es_admin']) && $_SESSION['es_admin'];
                     
-                    $sql = "SELECT * FROM producto";
+                    // Si el usuario es admin, mostrar todos los clientes. De lo contrario, solo los asignados a él.
+                   $sql = "SELECT * FROM entradas";
+
                     if($result = mysqli_query($conexion, $sql)){
                         if(mysqli_num_rows($result) > 0){
                             echo '<table class="table table-bordered table-striped table_id" id="tblDatos">';
                                 echo "<thead>";
                                     echo "<tr>";
                                         echo "<th>id</th>";
-                                        echo "<th>Codigo</th>";
                                         echo "<th>Nombre</th>";
-                                        echo "<th>Existencia</th>";
-                                        echo "<th>Precio</th>";
+                                        echo "<th>Entradas</th>";
+                                        echo "<th>Observacion</th>";
+                                        echo "<th>Usuario</th>";
+                                        echo "<th>Fecha</th>";
                                     echo "</tr>";
                                 echo "</thead>";
                                 echo "<tbody>";
-                                while($producto = mysqli_fetch_array($result)){
+                                while($row = mysqli_fetch_array($result)){
                                     echo "<tr>";
-                                        echo "<td>" . $producto['id'] . "</td>";
-                                        echo "<td>" . $producto['codigo'] . "</td>";
-                                        echo "<td>" . $producto['nombre'] . "</td>";
-                                        echo "<td>" . $producto['existencia'] . "</td>";
-                                        echo "<td>" . $producto['precio'] . "</td>";
+                                        echo "<td>" . $row['id'] . "</td>";
+                                        echo "<td>" . $row['nombre'] . "</td>";
+                                        echo "<td>" . $row['entradas'] . "</td>";
+                                        echo "<td>" . $row['observacion'] . "</td>";
+                                        echo "<td>" . $row['usuario'] . "</td>";
+                                        echo "<td>" . $row['fecha'] . "</td>";
                                         echo "<td>";
-                                            echo '<a href="read_producto.php?id='. $producto['id'] .'" class="mr-3" title="Ver registro" data-toggle="tooltip"><span class="fa fa-eye"></span></a>';
-                                            echo '<a href="update_producto.php?id='. $producto['id'] .'" class="mr-3" title="Modificar registro" data-toggle="tooltip"><span class="fa fa-pencil"></span></a>';
-                                            echo '<a href="delete_producto.php?id='. $producto['id'] .'" title="Borrar registro" data-toggle="tooltip"><span class="fa fa-trash"></span></a>';
+                                            echo '<a href="read_clientes.php?id='. $row['id'] .'" class="mr-3" title="Ver registro" data-toggle="tooltip"><span class="fa fa-eye"></span></a>';
+                                            echo '<a href="update_clientes.php?id='. $row['id'] .'" class="mr-3" title="Modificar registro" data-toggle="tooltip"><span class="fa fa-pencil"></span></a>';
+                                            echo '<a href="delete_clientes.php?id='. $row['id'] .'" title="Borrar registro" data-toggle="tooltip"><span class="fa fa-trash"></span></a>';
                                         echo "</td>";
                                     echo "</tr>";
                                 }
@@ -112,7 +121,7 @@ if ( !isset($_SESSION['usuario']) ) {
                     } else{
                         echo "Oops! ERROR.. Intente mas tarde";
                     }
- 
+
                     // Cerrar coneccion
                     mysqli_close($conexion);
                     ?>
@@ -129,6 +138,5 @@ if ( !isset($_SESSION['usuario']) ) {
                     </li>
                  </ul>
                 </nav>
-    <script src='main.js'></script>
 </body>
 </html>

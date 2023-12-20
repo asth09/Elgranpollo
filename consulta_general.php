@@ -112,5 +112,57 @@ if ( !isset($_SESSION['usuario']) ) {
                             <i class="fas fa-lock"></i>
                         </div>
 </html>
+<div class="container mt-5">
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label class="form-label">Buscar</label>
+                                <input type="text" class="form-control" id="buscar_1">
+                            </div>
+                            <button class="btn btn-primary">Buscar</button>
+                        </div>
+                    </div>
 
+                    function seleccionar(){
+    //oculto el menu una vez que selecciono una opcion
+    document.getElementById("nav").classList = "";
+    menuVisible = false;
+}
+(function(document) {
+    'buscador';
 
+    var LightTableFilter = (function(Arr) {
+
+      var _input;
+
+      function _onInputEvent(e) {
+        _input = e.target;
+        var tables = document.getElementsByClassName(_input.getAttribute('data-table'));
+        Arr.forEach.call(tables, function(table) {
+          Arr.forEach.call(table.tBodies, function(tbody) {
+            Arr.forEach.call(tbody.rows, _filter);
+          });
+        });
+      }
+
+      function _filter(row) {
+        var text = row.textContent.toLowerCase(), val = _input.value.toLowerCase();
+        row.style.display = text.indexOf(val) === -1 ? 'none' : 'table-row';
+      }
+
+      return {
+        init: function() {
+          var inputs = document.getElementsByClassName('light-table-filter');
+          Arr.forEach.call(inputs, function(input) {
+            input.oninput = _onInputEvent;
+          });
+        }
+      };
+    })(Array.prototype);
+
+    document.addEventListener('readystatechange', function() {
+      if (document.readyState === 'complete') {
+        LightTableFilter.init();
+      }
+    });
+
+  })(document);

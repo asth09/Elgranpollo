@@ -1,6 +1,6 @@
 <?php
 
-$conexion=mysqli_connect("localhost","root","","inventario");
+$conexion=mysqli_connect("localhost","root","","registro");
 $conexion->set_charset("utf8");
 
 ?>

@@ -9,9 +9,9 @@ if ( !isset($_SESSION['usuario']) ) {
 
 if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
     
-    require_once "conexion_bd.php";
+    require_once "conexion_bd2.php";
     
-    $sql = "SELECT * FROM producto WHERE id = ?";
+    $sql = "SELECT * FROM ventas WHERE id = ?";
     
     if($stmt = mysqli_prepare($conexion, $sql)){
 
@@ -26,11 +26,11 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
             if(mysqli_num_rows($result) == 1){
 
                 $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-
-                $codigo = $row["codigo"];
-                $nombre = $row["nombre"];
-                $existencia = $row["existencia"];
-                $precio = $row["precio"];
+                
+                $fecha = $row["fecha"];
+                $total = $row["total"];
+                $id_usuario = $row["id_usuario"];
+                $id_cliente = $row["id_cliente"];
 
             } else{
                 echo "ERROR..";
@@ -103,11 +103,11 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
             <div class="row">
                 <div class="col-md-12">
                     <h1 class="mt-5 mb-3">Consultar registro</h1>
-                    <p>Codigo del producto: <b><?php echo $codigo; ?></b></p>
-                    <p>Nombre del Producto: <b><?php echo $nombre; ?></b></p>
-                    <p>Existencia: <b><?php echo $existencia; ?></b></p>
-                    <p>Precio: <b><?php echo $precio; ?></b></p>
-                    <p><a href="productos.php" class="btn btn-primary">Regresar</a></p>
+                    <p>Fecha: <b><?php echo $fecha; ?></b></p>
+                    <p>Total: <b><?php echo $total; ?></b></p>
+                    <p>Id usuario: <b><?php echo $id_usuario; ?></b></p>
+                    <p>Id_cliente: <b><?php echo $id_cliente; ?></b></p>
+                    <p><a href="despacho.php" class="btn btn-primary">Regresar</a></p>
                 </div>
             </div>        
         </div>

@@ -7,6 +7,7 @@
 html{
     scroll-behavior: smooth;
 }
+
 .contenedor-header{
     background: #1e2326;
     position: fixed;
@@ -40,6 +41,12 @@ html{
 }
 .contenedor-header header nav ul li a:hover{
     color: #1CB698;
+}
+.contenedor-header header nav ul li ul li{
+    position: absolute;
+    right: 0;
+    width: 300px;
+    display: none;
 }
 .nav-responsive{
     background-color: #1CB698;
@@ -77,3 +84,15 @@ img{
     width: 60px;
     height: 60px;
 }
+
+@media (max-width: 767px) {
+    .container-fluid {
+      padding: 0; /* Elimina el relleno para que el formulario ocupe toda la pantalla */
+    }
+    .col-md-12 {
+      margin: 0 auto; /* Centra el formulario */
+      max-width: 80%; /* Ajusta el ancho del formulario según sea necesario */
+    }
+  }
+  
+  
