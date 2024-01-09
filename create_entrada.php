@@ -5,47 +5,7 @@ if ( !isset($_SESSION['usuario']) ) {
     die();
 }
 ?>
- <?php
- if (isset($_GET["status"])) {
-     if ($_GET["status"] === "1") {
- ?>
-         <div class="alert alert-success">
-             <strong>¡Correcto!</strong> Registro realizado correctamente
-         </div>
-     <?php
-     } else if ($_GET["status"] === "2") {
-     ?>
-         <div class="alert alert-info">
-             <strong>Registro cancelada</strong>
-         </div>
-     <?php
-     } else if ($_GET["status"] === "3") {
-     ?>
-         <div class="alert alert-info">
-             <strong>Ok</strong> Producto quitado de la lista
-         </div>
-     <?php
-     } else if ($_GET["status"] === "4") {
-     ?>
-         <div class="alert alert-warning">
-             <strong>Error:</strong> El producto que buscas no existe
-         </div>
-     <?php
-     } else if ($_GET["status"] === "5") {
-     ?>
-         <div class="alert alert-danger">
-             <strong>Error: </strong>El producto está agotado
-         </div>
-     <?php
-     } else {
-     ?>
-         <div class="alert alert-danger">
-             <strong>Error:</strong> Algo salió mal mientras se realizaba el registro
-         </div>
- <?php
-     }
- }
- ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -60,7 +20,6 @@ if ( !isset($_SESSION['usuario']) ) {
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
     <script src='main.js'></script>
     <style>
         .wrapper{
@@ -77,13 +36,13 @@ if ( !isset($_SESSION['usuario']) ) {
             </div>
             <nav id="nav" class="">
                 <ul>
-                    <li><a href="home.php" onclick="seleccionar()">INICIO</a></li>
                     <li><a href="clientes.php" onclick="seleccionar()">CLIENTES</a></li>
                     <li><a href="productos.php" onclick="seleccionar()">PRODUCTOS</a></li>
+                    <li><a href="proveedor.php" onclick="seleccionar()">PROVEEDOR</a></li>
                     <li><a href="entradas_aux.php" onclick="seleccionar()">ENTRADAS AUX</a></li>
                     <li><a href="salidas_aux.php" onclick="seleccionar()">SALIDAS AUX</a></li>
-                    <li><a href="pedidos.php" onclick="seleccionar()">PEDIDOS</a></li>
-                    <li><a href="despacho.php" onclick="seleccionar()">DESPACHO</a></li>
+                    <li><a href="pedidos.php" onclick="seleccionar()">VENTAS</a></li>
+                    <li><a href="comprar.php" onclick="seleccionar()">COMPRAR</a></li>
                     <li><a href="controlador_cerrar_session.php" onclick="seleccionar()">SALIR</a></li>
                 </ul>
             </nav>
@@ -102,7 +61,6 @@ if ( !isset($_SESSION['usuario']) ) {
                     <h2 class="mt-5">Crear una entrada</h2>
                     <p>Procure ingresar datos correctos. No se validan los datos</p>
                     
-                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 
                     <?php
 	                     // Conexión a la base de datos
@@ -118,14 +76,14 @@ if ( !isset($_SESSION['usuario']) ) {
                          }
                         ?> 
                         
-     <form action="procesar_entrada.php" method="POST">
+     <form action="procesar_entrada.php" method="POST" enctype="multipart/form-data">
            <!-- Campo select para id_cliente -->
                     <div> 
                           <label>Seleccione el producto</label> 
                           <br>
-                         <select name="nombre">
+                         <select name="id_producto" class="form-group">
                          <?php
-                         $producto_query = "SELECT * FROM producto";
+                         $producto_query = "SELECT id, nombre FROM producto";
                          $producto_result = $conn->query($producto_query);
                          while($row = $producto_result->fetch_assoc()) {
                             echo "<option value='" . $row['id'] . "'>" . $row['nombre'] . "</option>";
@@ -144,10 +102,12 @@ if ( !isset($_SESSION['usuario']) ) {
                             <br>
                             <input type="text" name="observacion">
                         </div>
+                    
 
                 <!-- Campo oculto para id_usuario -->
              <input name="id_usuario" type="hidden" value="<?php echo $_SESSION['id_usuario']; ?>">
-             <button type="submit" class="btn btn-primary">Aceptar</button>
+
+             <button type="submit" class="btn btn-primary" name="enviar">Aceptar</button>
              <a href="entradas_aux.php" class="btn btn-danger">Cancelar</a>
     </form>
 </body>

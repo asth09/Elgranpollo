@@ -11,7 +11,7 @@ if ( !isset($_SESSION['usuario']) ) {
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Despacho</title>
+    <title>Factura</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel="shortcut icon" href="LOGO EL GRAN POLLO.png" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -36,13 +36,13 @@ if ( !isset($_SESSION['usuario']) ) {
             </div>
             <nav id="nav" class="">
                 <ul>
-                    <li><a href="home.php" onclick="seleccionar()">INICIO</a></li>
                     <li><a href="clientes.php" onclick="seleccionar()">CLIENTES</a></li>
                     <li><a href="productos.php" onclick="seleccionar()">PRODUCTOS</a></li>
+                    <li><a href="proveedor.php" onclick="seleccionar()">PROVEEDOR</a></li>
                     <li><a href="entradas_aux.php" onclick="seleccionar()">ENTRADAS AUX</a></li>
                     <li><a href="salidas_aux.php" onclick="seleccionar()">SALIDAS AUX</a></li>
-                    <li><a href="pedidos.php" onclick="seleccionar()">PEDIDOS</a></li>
-                    <li><a href="despacho.php" onclick="seleccionar()">DESPACHO</a></li>
+                    <li><a href="pedidos.php" onclick="seleccionar()">VENTAS</a></li>
+                    <li><a href="comprar.php" onclick="seleccionar()">COMPRAR</a></li>
                     <li><a href="controlador_cerrar_session.php" onclick="seleccionar()">SALIR</a></li>
                 </ul>
             </nav>
@@ -59,7 +59,7 @@ if ( !isset($_SESSION['usuario']) ) {
             <div class="row">
                 <div class="col-md-12">
                     <div class="mt-5 mb-3 clearfix">
-                        <h2 class="pull-left" id="despacho">Despacho</h2>
+                        <h2 class="pull-left" id="despacho">Factura</h2>
                         <a href="pedidos.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Agregar</a>
                     </div>
                     <div class="container-fluid">
@@ -103,7 +103,7 @@ if ( !isset($_SESSION['usuario']) ) {
                                         echo "<td>";
                                             echo '<a href="read_despacho.php?id='. $row['id'] .'" class="mr-3" title="Ver registro" data-toggle="tooltip"><span class="fa fa-eye"></span></a>';
                                             echo '<a href="update_despacho.php?id='. $row['id'] .'" class="mr-3" title="Modificar registro" data-toggle="tooltip"><span class="fa fa-pencil"></span></a>';
-                                            echo '<a href="delete_despacho.php?id='. $row['id'] .'" title="Borrar registro" data-toggle="tooltip"><span class="fa fa-trash"></span></a>';
+                                            echo '<a href="pagos.php?id='. $row['id'] .'" title="Abonar al registro" data-toggle="tooltip"><span class="fa fa-plus"></span></a>';
                                         echo "</td>";
                                     echo "</tr>";
                                 }

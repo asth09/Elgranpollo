@@ -7,32 +7,36 @@ if ( !isset($_SESSION['usuario']) ) {
 ?>
 <?php
 require_once "conexion_bd.php";
-
-$codigo = "";
+ 
 $nombre = "";
-$existencia = "";
-$precio = "";
+$rif = "";
+$direccion = "";
+$telefono = "";
+$vendedor = "";
+
  
 if(isset($_POST["id"]) && !empty($_POST["id"])){
     
     $id = $_POST["id"];
     
-    $input_codigo = trim($_POST["codigo"]);
-    $codigo = $input_codigo;
-
     $input_nombre = trim($_POST["nombre"]);
     $nombre = $input_nombre;
         
-    $input_existencia = trim($_POST["existencia"]);
-    $existencia = $input_existencia;
-    
-    $input_precio = trim($_POST["precio"]);
-    $precio = $input_precio;
+    $input_rif = trim($_POST["rif"]);
+    $rif = $input_rif;
 
-    $sql = "UPDATE producto SET codigo=?, nombre=?, existencia=?,
-                                precio=?
-            WHERE id=?";
-        
+    $input_direccion = trim($_POST["direccion"]);
+    $direccion = $input_direccion;
+
+    $input_telefono = trim($_POST["telefono"]);
+    $telefono = $input_telefono;
+
+    $input_vendedor = trim($_POST["vendedor"]);
+    $vendedor = $input_vendedor;
+
+
+    $sql = "UPDATE proveedores SET nombre=?, rif=?, direccion=?, telefono=?, vendedor=?
+                            WHERE id=?";
     if($stmt = mysqli_prepare($conexion, $sql)){
 
         /*   **** ATENCION ***
@@ -43,17 +47,18 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
         d para DECIMAL
         segun el orden en que se declaran en la funcion
         */
-        mysqli_stmt_bind_param($stmt, "ssssi", $param_codigo, $param_nombre, $param_existencia, 
-        $param_precio, $param_id);
+        mysqli_stmt_bind_param($stmt, "ssssss", $param_nombre, $param_rif, $param_direccion, $param_telefono, 
+                                              $param_vendedor, $param_id);
 
-        $param_codigo = $codigo;
         $param_nombre = $nombre;
-        $param_existencia = $existencia;
-        $param_precio = $precio;
+        $param_rif = $rif;
+        $param_direccion = $direccion;
+        $param_telefono = $telefono;
+        $param_vendedor = $vendedor;
         $param_id = $id;
 
         if(mysqli_stmt_execute($stmt)){
-            header("location: productos.php");
+            header("location: proveedor.php");
             exit();
         } else{
             echo "ERROR..";
@@ -70,7 +75,7 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
         
         $id =  trim($_GET["id"]);
         
-        $sql = "SELECT * FROM producto WHERE id = ?";
+        $sql = "SELECT * FROM proveedores WHERE id = ?";
         if($stmt = mysqli_prepare($conexion, $sql)){
 
             mysqli_stmt_bind_param($stmt, "i", $param_id);
@@ -84,10 +89,11 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
                 if(mysqli_num_rows($result) == 1){
                     $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
                     
-                    $codigo = $row["codigo"];
                     $nombre = $row["nombre"];
-                    $existencia = $row["existencia"];
-                    $precio = $row["precio"];
+                    $rif = $row["rif"];
+                    $direccion = $row["direccion"];
+                    $telefono = $row["telefono"];
+                    $vendedor = $row["vendedor"];
                 } else{
                     echo "ERROR..";
                 }
@@ -149,7 +155,7 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
                 </ul>
             </nav>
             <div class="nav-responsive" onclick="mostrarOcultarMenu()">
-              <i class="fa fa-bars"></i>
+               <i class="fa fa-bars"></i>
             </div>
         </header>
     </div>
@@ -164,31 +170,38 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
                     <p>Procure ingresar datos correctos. No se validan los datos</p>
                     <form action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="post">
                     <div class="form-group">
-                            <label>Codigo del producto</label>
-                            <br>
-                            <input type="text" name="codigo" value="<?php echo $codigo; ?>">
-                        </div>
-                        <div class="form-group">
-                        <label>Nombre del producto</label>
+                            <label>Nombre del proveedor</label>
                             <br>
                             <input type="text" name="nombre" value="<?php echo $nombre; ?>">
                         </div>
 
                         <div class="form-group">
-                            <label>Existencia</label>
+                            <label>Rif</label>
                             <br>
-                            <input type="text" name="existencia" value="<?php echo $existencia; ?>">
+                            <input type="text" name="rif" value="<?php echo $rif; ?>">
                         </div>
-                                           
+
                         <div class="form-group">
-                            <label>Precio</label>
+                            <label>Direccion</label>
                             <br>
-                            <input type="text" name="precio" value="<?php echo $precio; ?>">
+                            <input type="text" name="direccion" value="<?php echo $direccion; ?>">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Telefono</label>
+                            <br>
+                            <input type="text" name="telefono" value="<?php echo $telefono; ?>">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Vendedor</label>
+                            <br>
+                            <input type="text" name="vendedor" value="<?php echo $vendedor; ?>">
                         </div>
 
                         <input type="hidden" name="id" value="<?php echo $id; ?>"/>
                         <input type="submit" class="btn btn-primary" value="Aceptar">
-                        <a href="productos.php" class="btn btn-secondary ml-2">Cancelar</a>
+                        <a href="proveedor.php" class="btn btn-secondary ml-2">Cancelar</a>
                     </form>
                 </div>
             </div>        

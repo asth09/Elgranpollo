@@ -5,13 +5,57 @@ if ( !isset($_SESSION['usuario']) ) {
     die();
 }
 ?>
- 
+<?php
+
+if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
+    
+    require_once "conexion_bd.php";
+    
+    $sql = "SELECT * FROM proveedores WHERE id = ?";
+    
+    if($stmt = mysqli_prepare($conexion, $sql)){
+
+        mysqli_stmt_bind_param($stmt, "i", $param_id);
+        
+        $param_id = trim($_GET["id"]);
+        
+        if(mysqli_stmt_execute($stmt)){
+
+            $result = mysqli_stmt_get_result($stmt);
+    
+            if(mysqli_num_rows($result) == 1){
+
+                $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+                
+                $nombre = $row["nombre"];
+                $rif = $row["rif"];
+                $direccion = $row["direccion"];
+                $telefono = $row["telefono"];
+                $vendedor = $row["vendedor"];
+
+            } else{
+                echo "ERROR..";
+            }
+            
+        } else{
+            echo "ERROR..";
+        }
+    }
+     
+    mysqli_stmt_close($stmt);
+    
+    mysqli_close($conexion);
+} else{
+    echo "ERROR..";
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Crear registro</title>
+    <title>Consultar registro</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel="shortcut icon" href="LOGO EL GRAN POLLO.png" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -48,7 +92,7 @@ if ( !isset($_SESSION['usuario']) ) {
                 </ul>
             </nav>
             <div class="nav-responsive" onclick="mostrarOcultarMenu()">
-               <i class="fa fa-bars"></i>
+              <i class="fa fa-bars"></i>
             </div>
         </header>
     </div>
@@ -59,57 +103,18 @@ if ( !isset($_SESSION['usuario']) ) {
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <h2 class="mt-5">Crear una salida</h2>
-                    <p>Procure ingresar datos correctos. No se validan los datos</p>
-                    
+                    <h1 class="mt-5 mb-3">Consultar registro</h1>
+                    <p>Proveedor: <b><?php echo $nombre; ?></b></p>
+                    <p>Rif: <b><?php echo $rif; ?></b></p>
+                    <p>Direccion: <b><?php echo $direccion; ?></b></p>
+                    <p>Telefono: <b><?php echo $telefono; ?></b></p>
+                    <p>Vendedor: <b><?php echo $vendedor; ?></b></p>
 
-                    <?php
-	                     // Conexión a la base de datos
-                         $servername = "localhost";
-                         $username = "root";
-                         $password = "";
-                         $dbname = "registro";
-
-                         $conn = new mysqli($servername, $username, $password, $dbname);
-
-                         if ($conn->connect_error) {
-                         die("Conexión fallida: " . $conn->connect_error);
-                         }
-                        ?> 
-                        
-     <form action="procesar_salidas.php" method="POST">
-           <!-- Campo select para id_cliente -->
-                    <div> 
-                          <label>Seleccione el producto</label> 
-                          <br>
-                         <select name="id_producto">
-                         <?php
-                         $producto_query = "SELECT id, nombre FROM producto";
-                         $producto_result = $conn->query($producto_query);
-                         while($row = $producto_result->fetch_assoc()) {
-                            echo "<option value='" . $row['id'] . "'>" . $row['nombre'] . "</option>";
-                         }
-                         ?>
-                         </select>
-                        </div> 
-                        <br>
-                        <div class="form-group">
-                            <label>Cantidad a descontar</label>
-                            <br>
-                            <input type="number" name="salidas">
-                        </div>
-                                                
-                        <div class="form-group">
-                            <label>Observacion</label>
-                            <br>
-                            <input type="text" name="observacion">
-                        </div>
-
-                <!-- Campo oculto para id_usuario -->
-             <input name="id_usuario" type="hidden" value="<?php echo $_SESSION['id_usuario']; ?>">
-
-             <button type="submit" class="btn btn-primary" name="enviar">Aceptar</button>
-             <a href="salidas_aux.php" class="btn btn-danger">Cancelar</a>
-    </form>
+                    <p><a href="proveedor.php" class="btn btn-primary">Regresar</a></p>
+                </div>
+            </div>        
+        </div>
+    </div>
 </body>
 </html>
+

@@ -35,13 +35,13 @@ if ( !isset($_SESSION['usuario']) ) {
             </div>
             <nav id="nav" class="">
                 <ul>
-                    <li><a href="home.php" onclick="seleccionar()">INICIO</a></li>
                     <li><a href="clientes.php" onclick="seleccionar()">CLIENTES</a></li>
                     <li><a href="productos.php" onclick="seleccionar()">PRODUCTOS</a></li>
+                    <li><a href="proveedor.php" onclick="seleccionar()">PROVEEDOR</a></li>
                     <li><a href="entradas_aux.php" onclick="seleccionar()">ENTRADAS AUX</a></li>
                     <li><a href="salidas_aux.php" onclick="seleccionar()">SALIDAS AUX</a></li>
-                    <li><a href="pedidos.php" onclick="seleccionar()">PEDIDOS</a></li>
-                    <li><a href="despacho.php" onclick="seleccionar()">DESPACHO</a></li>
+                    <li><a href="pedidos.php" onclick="seleccionar()">VENTAS</a></li>
+                    <li><a href="comprar.php" onclick="seleccionar()">COMPRAR</a></li>
                     <li><a href="controlador_cerrar_session.php" onclick="seleccionar()">SALIR</a></li>
                 </ul>
             </nav>
@@ -80,7 +80,7 @@ if ( !isset($_SESSION['usuario']) ) {
                     $esAdmin = isset($_SESSION['es_admin']) && $_SESSION['es_admin'];
                     
                     // Si el usuario es admin, mostrar todos los clientes. De lo contrario, solo los asignados a él.
-                   $sql = "SELECT * FROM salidas";
+                   $sql = "SELECT e.*, p.nombre FROM salidas e INNER JOIN producto p ON e.id_producto=p.id";
 
                     if($result = mysqli_query($conexion, $sql)){
                         if(mysqli_num_rows($result) > 0){
@@ -102,7 +102,7 @@ if ( !isset($_SESSION['usuario']) ) {
                                         echo "<td>" . $row['nombre'] . "</td>";
                                         echo "<td>" . $row['salidas'] . "</td>";
                                         echo "<td>" . $row['observacion'] . "</td>";
-                                        echo "<td>" . $row['usuario'] . "</td>";
+                                        echo "<td>" . $row['id_usuario'] . "</td>";
                                         echo "<td>" . $row['fecha'] . "</td>";
                                         echo "<td>";
                                             echo '<a href="read_clientes.php?id='. $row['id'] .'" class="mr-3" title="Ver registro" data-toggle="tooltip"><span class="fa fa-eye"></span></a>';

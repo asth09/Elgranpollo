@@ -104,13 +104,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             </div>
             <nav id="nav" class="">
                 <ul>
-                    <li><a href="home.php" onclick="seleccionar()">INICIO</a></li>
                     <li><a href="clientes.php" onclick="seleccionar()">CLIENTES</a></li>
                     <li><a href="productos.php" onclick="seleccionar()">PRODUCTOS</a></li>
+                    <li><a href="proveedor.php" onclick="seleccionar()">PROVEEDOR</a></li>
                     <li><a href="entradas_aux.php" onclick="seleccionar()">ENTRADAS AUX</a></li>
                     <li><a href="salidas_aux.php" onclick="seleccionar()">SALIDAS AUX</a></li>
-                    <li><a href="pedidos.php" onclick="seleccionar()">PEDIDOS</a></li>
-                    <li><a href="despacho.php" onclick="seleccionar()">DESPACHO</a></li>
+                    <li><a href="pedidos.php" onclick="seleccionar()">VENTAS</a></li>
+                    <li><a href="comprar.php" onclick="seleccionar()">COMPRAR</a></li>
                     <li><a href="controlador_cerrar_session.php" onclick="seleccionar()">SALIR</a></li>
                 </ul>
             </nav>

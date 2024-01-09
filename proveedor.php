@@ -11,7 +11,7 @@ if ( !isset($_SESSION['usuario']) ) {
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Despacho</title>
+    <title>Clientes</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel="shortcut icon" href="LOGO EL GRAN POLLO.png" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -20,7 +20,6 @@ if ( !isset($_SESSION['usuario']) ) {
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
     <script src='main.js'></script>
     <script>
             $(document).ready(function() {
@@ -47,20 +46,20 @@ if ( !isset($_SESSION['usuario']) ) {
                 </ul>
             </nav>
             <div class="nav-responsive" onclick="mostrarOcultarMenu()">
-              <i class="fa fa-bars"></i>
+               <i class="fa fa-bars"></i>
             </div>
         </header>
     </div>
     <br>
     <br>
     <br>
-        <div class="wrapper">
+    <div class="wrapper">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
                     <div class="mt-5 mb-3 clearfix">
-                        <h2 class="pull-left" id="despacho">Despacho</h2>
-                        <a href="fac.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Agregar</a>
+                        <h2 class="pull-left" id="clientes">Proveedor</h2>
+                        <a href="create_proveedor.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Agregar un proveedor</a>
                     </div>
                     <div class="container-fluid">
                     <form class="d-flex">
@@ -75,35 +74,40 @@ if ( !isset($_SESSION['usuario']) ) {
                     <?php
 
                     // Incluir configuracion de la Base de Datos
-                    require_once "conexion_bd2.php";
+                    require_once "conexion_bd.php";
 
+                    // Comprobar si el usuario es el administrador
                     $esAdmin = isset($_SESSION['es_admin']) && $_SESSION['es_admin'];
                     
-                    $sql = $esAdmin ? "SELECT ventas.id, ventas.fecha, ventas.total, usuarios.usuario AS nombre_usuario, clientes.nombre AS nombre_cliente FROM ventas JOIN usuarios ON ventas.id_usuario = usuarios.id JOIN clientes ON ventas.id_cliente = clientes.id ORDER BY ventas.id DESC" : "SELECT ventas.id, ventas.fecha, ventas.total, usuarios.usuario AS nombre_usuario, clientes.nombre AS nombre_cliente FROM ventas JOIN usuarios ON ventas.id_usuario = usuarios.id JOIN clientes ON ventas.id_cliente = clientes.id WHERE ventas.id_usuario = ".$_SESSION['id_usuario']." ORDER BY ventas.id DESC";
-                    if ($result = mysqli_query($conexion, $sql)) {
-                        if (mysqli_num_rows($result) > 0) {
-                            echo '<table class="table table-bordered table-striped table_id">';
-                            echo "<thead>";
-                            echo "<tr>";
-                            echo "<th>Id</th>";
-                            echo "<th>Fecha</th>";
-                            echo "<th>Total</th>";
-                            echo "<th>Vendedor</th>";
-                            echo "<th>Cliente</th>";
-                            echo "</tr>";
-                            echo "</thead>";
-                            echo "<tbody>";
-                            while ($row = mysqli_fetch_array($result)) {
-                                echo "<tr>";
-                                echo "<td>" . $row['id'] . "</td>";
-                                echo "<td>" . $row['fecha'] . "</td>";
-                                echo "<td>" . $row['total'] . "</td>";
-                                echo "<td>" . $row['nombre_usuario'] . "</td>";
-                                echo "<td>" . $row['nombre_cliente'] . "</td>";
+                    // Si el usuario es admin, mostrar todos los clientes. De lo contrario, solo los asignados a él.
+                   $sql = $esAdmin ? "SELECT * FROM proveedores" : "SELECT * FROM proveedores WHERE vendedor = '" . $_SESSION['usuario'] . "'";
+
+                    if($result = mysqli_query($conexion, $sql)){
+                        if(mysqli_num_rows($result) > 0){
+                            echo '<table class="table table-bordered table-striped table_id" id="tblDatos">';
+                                echo "<thead>";
+                                    echo "<tr>";
+                                        echo "<th>id</th>";
+                                        echo "<th>Proveedor</th>";
+                                        echo "<th>rif</th>";
+                                        echo "<th>direccion</th>";
+                                        echo "<th>telefono</th>";
+                                        echo "<th>vendedor</th>";
+                                    echo "</tr>";
+                                echo "</thead>";
+                                echo "<tbody>";
+                                while($row = mysqli_fetch_array($result)){
+                                    echo "<tr>";
+                                        echo "<td>" . $row['id'] . "</td>";
+                                        echo "<td>" . $row['nombre'] . "</td>";
+                                        echo "<td>" . $row['rif'] . "</td>";
+                                        echo "<td>" . $row['direccion'] . "</td>";
+                                        echo "<td>" . $row['telefono'] . "</td>";
+                                        echo "<td>" . $row['vendedor'] . "</td>";
                                         echo "<td>";
-                                            echo '<a href="read_despacho.php?id='. $row['id'] .'" class="mr-3" title="Ver registro" data-toggle="tooltip"><span class="fa fa-eye"></span></a>';
-                                            echo '<a href="update_despacho.php?id='. $row['id'] .'" class="mr-3" title="Modificar registro" data-toggle="tooltip"><span class="fa fa-pencil"></span></a>';
-                                            
+                                            echo '<a href="read_proveedor.php?id='. $row['id'] .'" class="mr-3" title="Ver registro" data-toggle="tooltip"><span class="fa fa-eye"></span></a>';
+                                            echo '<a href="update_proveedor.php?id='. $row['id'] .'" class="mr-3" title="Modificar registro" data-toggle="tooltip"><span class="fa fa-pencil"></span></a>';
+                                            echo '<a href="delete_proveedor.php?id='. $row['id'] .'" title="Borrar registro" data-toggle="tooltip"><span class="fa fa-trash"></span></a>';
                                         echo "</td>";
                                     echo "</tr>";
                                 }

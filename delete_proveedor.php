@@ -5,13 +5,43 @@ if ( !isset($_SESSION['usuario']) ) {
     die();
 }
 ?>
- 
+<?php
+if(isset($_POST["id"]) && !empty($_POST["id"])){
+    
+    require_once "conexion_bd.php";
+    
+    $sql = "DELETE FROM proveedores WHERE id = ?";
+    
+    if($stmt = mysqli_prepare($conexion, $sql)){
+
+        mysqli_stmt_bind_param($stmt, "i", $param_id);
+        
+        $param_id = trim($_POST["id"]);
+        
+        if(mysqli_stmt_execute($stmt)){
+            header("location: proveedor.php");
+            exit();
+        } else{
+            echo "ERROR..";
+        }
+    }
+     
+    mysqli_stmt_close($stmt);
+    
+    mysqli_close($conexion);
+} else{
+    if(empty(trim($_GET["id"]))){
+        exit();
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Crear registro</title>
+    <title>Borrar registro</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel="shortcut icon" href="LOGO EL GRAN POLLO.png" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -59,57 +89,20 @@ if ( !isset($_SESSION['usuario']) ) {
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <h2 class="mt-5">Crear una salida</h2>
-                    <p>Procure ingresar datos correctos. No se validan los datos</p>
-                    
-
-                    <?php
-	                     // Conexión a la base de datos
-                         $servername = "localhost";
-                         $username = "root";
-                         $password = "";
-                         $dbname = "registro";
-
-                         $conn = new mysqli($servername, $username, $password, $dbname);
-
-                         if ($conn->connect_error) {
-                         die("Conexión fallida: " . $conn->connect_error);
-                         }
-                        ?> 
-                        
-     <form action="procesar_salidas.php" method="POST">
-           <!-- Campo select para id_cliente -->
-                    <div> 
-                          <label>Seleccione el producto</label> 
-                          <br>
-                         <select name="id_producto">
-                         <?php
-                         $producto_query = "SELECT id, nombre FROM producto";
-                         $producto_result = $conn->query($producto_query);
-                         while($row = $producto_result->fetch_assoc()) {
-                            echo "<option value='" . $row['id'] . "'>" . $row['nombre'] . "</option>";
-                         }
-                         ?>
-                         </select>
-                        </div> 
-                        <br>
-                        <div class="form-group">
-                            <label>Cantidad a descontar</label>
-                            <br>
-                            <input type="number" name="salidas">
+                    <h2 class="mt-5 mb-3">Borrar registro</h2>
+                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                        <div class="alert alert-danger">
+                            <input type="hidden" name="id" value="<?php echo trim($_GET["id"]); ?>"/>
+                            <p>¿Esta seguro de eliminar el registro?</p>
+                            <p>
+                                <input type="submit" value="Si" class="btn btn-danger">
+                                <a href="proveedor.php" class="btn btn-secondary">No</a>
+                            </p>
                         </div>
-                                                
-                        <div class="form-group">
-                            <label>Observacion</label>
-                            <br>
-                            <input type="text" name="observacion">
-                        </div>
-
-                <!-- Campo oculto para id_usuario -->
-             <input name="id_usuario" type="hidden" value="<?php echo $_SESSION['id_usuario']; ?>">
-
-             <button type="submit" class="btn btn-primary" name="enviar">Aceptar</button>
-             <a href="salidas_aux.php" class="btn btn-danger">Cancelar</a>
-    </form>
+                    </form>
+                </div>
+            </div>        
+        </div>
+    </div>
 </body>
 </html>

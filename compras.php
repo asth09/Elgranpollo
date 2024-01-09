@@ -11,7 +11,7 @@ if ( !isset($_SESSION['usuario']) ) {
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Despacho</title>
+    <title>Compras</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel="shortcut icon" href="LOGO EL GRAN POLLO.png" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -59,8 +59,8 @@ if ( !isset($_SESSION['usuario']) ) {
             <div class="row">
                 <div class="col-md-12">
                     <div class="mt-5 mb-3 clearfix">
-                        <h2 class="pull-left" id="despacho">Despacho</h2>
-                        <a href="fac.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Agregar</a>
+                        <h2 class="pull-left" id="despacho">Compras</h2>
+                        <a href="comprar.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Agregar</a>
                     </div>
                     <div class="container-fluid">
                     <form class="d-flex">
@@ -75,11 +75,12 @@ if ( !isset($_SESSION['usuario']) ) {
                     <?php
 
                     // Incluir configuracion de la Base de Datos
-                    require_once "conexion_bd2.php";
+                    require_once "conexion_bd.php";
 
                     $esAdmin = isset($_SESSION['es_admin']) && $_SESSION['es_admin'];
                     
-                    $sql = $esAdmin ? "SELECT ventas.id, ventas.fecha, ventas.total, usuarios.usuario AS nombre_usuario, clientes.nombre AS nombre_cliente FROM ventas JOIN usuarios ON ventas.id_usuario = usuarios.id JOIN clientes ON ventas.id_cliente = clientes.id ORDER BY ventas.id DESC" : "SELECT ventas.id, ventas.fecha, ventas.total, usuarios.usuario AS nombre_usuario, clientes.nombre AS nombre_cliente FROM ventas JOIN usuarios ON ventas.id_usuario = usuarios.id JOIN clientes ON ventas.id_cliente = clientes.id WHERE ventas.id_usuario = ".$_SESSION['id_usuario']." ORDER BY ventas.id DESC";
+                    $sql = $esAdmin ? "SELECT compras.id, compras.fecha, compras.total, usuarios.usuario AS nombre_usuario, proveedores.nombre AS nombre_proveedor FROM compras JOIN usuarios ON compras.id_usuario = usuarios.id JOIN proveedores ON compras.id_proveedor = proveedores.id ORDER BY compras.id DESC" : "SELECT compras.id, compras.fecha, compras.total, usuarios.usuario AS nombre_usuario, proveedores.nombre AS nombre_proveedor FROM compras JOIN usuarios ON compras.id_usuario = usuarios.id JOIN proveedores ON compras.id_proveedor = proveedores.id WHERE compras.id_usuario = ".$_SESSION['id_usuario']." ORDER BY compras.id DESC";
+
                     if ($result = mysqli_query($conexion, $sql)) {
                         if (mysqli_num_rows($result) > 0) {
                             echo '<table class="table table-bordered table-striped table_id">';
@@ -89,7 +90,7 @@ if ( !isset($_SESSION['usuario']) ) {
                             echo "<th>Fecha</th>";
                             echo "<th>Total</th>";
                             echo "<th>Vendedor</th>";
-                            echo "<th>Cliente</th>";
+                            echo "<th>Proveedor</th>";
                             echo "</tr>";
                             echo "</thead>";
                             echo "<tbody>";
@@ -99,11 +100,11 @@ if ( !isset($_SESSION['usuario']) ) {
                                 echo "<td>" . $row['fecha'] . "</td>";
                                 echo "<td>" . $row['total'] . "</td>";
                                 echo "<td>" . $row['nombre_usuario'] . "</td>";
-                                echo "<td>" . $row['nombre_cliente'] . "</td>";
+                                echo "<td>" . $row['nombre_proveedor'] . "</td>";
                                         echo "<td>";
                                             echo '<a href="read_despacho.php?id='. $row['id'] .'" class="mr-3" title="Ver registro" data-toggle="tooltip"><span class="fa fa-eye"></span></a>';
                                             echo '<a href="update_despacho.php?id='. $row['id'] .'" class="mr-3" title="Modificar registro" data-toggle="tooltip"><span class="fa fa-pencil"></span></a>';
-                                            
+                                            echo '<a href="delete_despacho.php?id='. $row['id'] .'" title="Borrar registro" data-toggle="tooltip"><span class="fa fa-trash"></span></a>';
                                         echo "</td>";
                                     echo "</tr>";
                                 }

@@ -4,8 +4,9 @@ include("conexion_bd.php");
 $usuario = $conexion->real_escape_string($_POST['usuario']);
 $password = $conexion->real_escape_string($_POST['password']);
 
-$consulta = "SELECT * FROM usuarios WHERE usuario = '$usuario' AND password = '$password'";
+$consulta = "SELECT * FROM usuarios WHERE usuario_u = '$usuario' OR password_u = '$password'";
 $resultado = mysqli_query($conexion, $consulta);
+
 
 $filas = mysqli_num_rows($resultado);
 
@@ -29,6 +30,7 @@ if ($filas > 0) {
     ?>
     <h1>Error de autenticación</h1>
     <?php
+    echo "<script>console.log('Console: " . $resultado . "' );</script>";
 }
 
 mysqli_free_result($resultado);

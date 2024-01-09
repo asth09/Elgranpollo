@@ -1,7 +1,7 @@
 <?php
 
 /* Attempt to connect to MySQL database */
-$conexion = mysqli_connect("localhost","root","","registro");
+$conexion = mysqli_connect("localhost","root","","registro3");
  
 // Check connection
 if($conexion === false){

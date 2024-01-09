@@ -11,7 +11,7 @@ if ( !isset($_SESSION['usuario']) ) {
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Ventas</title>
+    <title>Comprar</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel="shortcut icon" href="LOGO EL GRAN POLLO.png" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -20,7 +20,6 @@ if ( !isset($_SESSION['usuario']) ) {
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
     <script src='main.js'></script>
     <script>
             $(document).ready(function() {
@@ -47,37 +46,39 @@ if ( !isset($_SESSION['usuario']) ) {
                 </ul>
             </nav>
             <div class="nav-responsive" onclick="mostrarOcultarMenu()">
-			   <i class="fa fa-bars"></i>
+               <i class="fa fa-bars"></i>
             </div>
         </header>
     </div>
     <br>
     <br>
     <br>
-	<div class="wrapper">
+    <div class="wrapper">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
                     <div class="mt-5 mb-3 clearfix">
-                        <h2 class="pull-left" id="clientes">Ventas</h2>
-                        <a href="despacho.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Ver la factura</a>
+                        <h2 class="pull-left" id="clientes">Comprar</h2>
+                        <a href="compras.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Ver las compras</a>
                     </div>
                     <div class="container-fluid">
-                    <form class="d-flex" method="post" action="agregarAlcarrito.php">
+                    <form class="d-flex" method="post" action="agregarAlcarrito2.php">
 		            <input autocomplete="off" autofocus class="form-control" name="codigo" required type="text" id="codigo" placeholder="Escribe el código">
                     <hr>
                    </form>
                   </div>
                   <br>
-				  <?php
-				  if (!isset($_SESSION["carrito"])) $_SESSION["carrito"] = [];
-				  $granTotal = 0;
-				  
+<?php
+if (!isset($_SESSION["carrito"])) $_SESSION["carrito"] = [];
+$granTotal = 0;
+?>
+<div class="col-xs-12">
+	<?php
 	if (isset($_GET["status"])) {
 		if ($_GET["status"] === "1") {
 	?>
 			<div class="alert alert-success">
-				<strong>¡Correcto!</strong> Venta realizada correctamente
+				<strong>¡Correcto!</strong> Compra realizada correctamente
 			</div>
 		<?php
 		} else if ($_GET["status"] === "2") {
@@ -107,13 +108,12 @@ if ( !isset($_SESSION['usuario']) ) {
 		} else {
 		?>
 			<div class="alert alert-danger">
-				<strong>Error:</strong> Algo salió mal mientras se realizaba la venta
+				<strong>Error:</strong> Algo salió mal mientras se realizaba la compra
 			</div>
 	<?php
 		}
 	}
 	?>
-
 	<table class="table table-bordered table-striped">
 		<thead>
 			<tr>
@@ -136,13 +136,13 @@ if ( !isset($_SESSION['usuario']) ) {
 					<td><?php echo $producto->nombre ?></td>
 					<td><?php echo $producto->precio ?></td>
 					<td>
-						<form action="cambiar_cantidad2.php" method="post">
+						<form action="cambiar_cantidad3.php" method="post">
 							<input name="indice" type="hidden" value="<?php echo $indice; ?>">
 							<input min="1" name="cantidad" class="form-control" required type="number" step="0.1" value="<?php echo $producto->cantidad; ?>">
 						</form>
 					</td>
 					<td><?php echo $producto->total ?></td>
-					<td><a class="btn btn-danger" href="<?php echo "quitarDelCarrito2.php?indice=" . $indice ?>"><i class="fa fa-trash"></i></a></td>
+					<td><a class="btn btn-danger" href="<?php echo "quitarDelCarrito3.php?indice=" . $indice ?>"><i class="fa fa-trash"></i></a></td>
 				</tr>
 			<?php } ?>
 		</tbody>
@@ -161,16 +161,16 @@ if ($conn->connect_error) {
   die("Conexión fallida: " . $conn->connect_error);
 }
 ?>
-     <form action="terminarVenta.php" method="POST">
+     <form action="terminarCompra.php" method="POST">
     <!-- Campo select para id_cliente -->
 	<label>Selecciona al cliente</label>
-    <select name="id_cliente" class="form-control">
+    <select name="id_proveedor" class="form-control">
         <?php
 		 // Comprobar si el usuario es el administrador
 		 $esAdmin = isset($_SESSION['es_admin']) && $_SESSION['es_admin'];
                     
 		 // Si el usuario es admin, mostrar todos los clientes. De lo contrario, solo los asignados a él.
-		$sql = $esAdmin ? "SELECT * FROM clientes" : "SELECT * FROM clientes WHERE vendedor = '" . $_SESSION['usuario'] . "'";
+		$sql = $esAdmin ? "SELECT * FROM proveedores" : "SELECT * FROM proveedores WHERE vendedor = '" . $_SESSION['usuario'] . "'";
 
         $clientes_result = $conn->query($sql);
         while($row = $clientes_result->fetch_assoc()) {
@@ -183,11 +183,10 @@ if ($conn->connect_error) {
     <input name="id_usuario" type="hidden" value="<?php echo $_SESSION['id_usuario']; ?>">
 
     <input name="total" type="hidden" value="<?php echo $granTotal; ?>">
-    <button type="submit" class="btn btn-success">Terminar venta</button>
-    <a href="./cancelarVenta2.php" class="btn btn-danger">Cancelar venta</a>
-	<a href="fac.php" class="btn btn-info">Pedidos</a>
+    <button type="submit" class="btn btn-success">Terminar compra</button>
+    <a href="./cancelarVenta3.php" class="btn btn-danger">Cancelar compra</a>
 </form>
 </form>
-</div>
+</div>            
 </body>
 </html>

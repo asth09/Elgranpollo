@@ -31,17 +31,17 @@ if ( !isset($_SESSION['usuario']) ) {
     <div class="contenedor-header">
         <header>
             <div class="logo">
-             <a href="#"><img src="LOGO EL GRAN POLLO.png" alt="2x2" width="60" heigth="60"></a>
+             <a href="home.php"><img src="LOGO EL GRAN POLLO.png" alt="2x2" width="60" heigth="60"></a>
             </div>
             <nav id="nav" class="">
                 <ul>
-                    <li><a href="#inicio" onclick="seleccionar()">INICIO</a></li>
                     <li><a href="clientes.php" onclick="seleccionar()">CLIENTES</a></li>
                     <li><a href="productos.php" onclick="seleccionar()">PRODUCTOS</a></li>
+                    <li><a href="proveedor.php" onclick="seleccionar()">PROVEEDOR</a></li>
                     <li><a href="entradas_aux.php" onclick="seleccionar()">ENTRADAS AUX</a></li>
                     <li><a href="salidas_aux.php" onclick="seleccionar()">SALIDAS AUX</a></li>
-                    <li><a href="pedidos.php" onclick="seleccionar()">PEDIDOS</a></li>
-                    <li><a href="despacho.php" onclick="seleccionar()">DESPACHO</a></li>
+                    <li><a href="pedidos.php" onclick="seleccionar()">VENTAS</a></li>
+                    <li><a href="comprar.php" onclick="seleccionar()">COMPRAR</a></li>
                     <li><a href="controlador_cerrar_session.php" onclick="seleccionar()">SALIR</a></li>
                 </ul>
             </nav>

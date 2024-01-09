@@ -9,11 +9,11 @@ if(isset($_POST['enviar'])){
 
 
 $id_producto = $_POST['id_producto']; // Cambia 'id_producto' por el id_producto correcto del campo
-$entradas = $_POST['entradas']; // Cambia 'entradas' por el id_producto correcto del campo
+$salidas = $_POST['salidas']; // Cambia 'entradas' por el id_producto correcto del campo
 $observacion = $_POST['observacion']; // Cambia 'observacion' por el id_producto correcto del campo
 
 // Luego de recibir los valores, puedes verificar si están definidos y no son nulos
-if(isset($id_producto) && isset($entradas) && isset($observacion)) {
+if(isset($id_producto) && isset($salidas) && isset($observacion)) {
     // Tu código para la inserción en la base de datos aquí
 } else {
     exit("Ocurrió un error: Algunos datos no fueron proporcionados"); // Manejo de errores si los datos no están presentes
@@ -30,22 +30,22 @@ $ahora = date("Y-m-d H:i:s");
 try { 
     $base_de_datos->beginTransaction(); 
  
-    $sentencia = $base_de_datos->prepare("INSERT INTO entradas(id_producto, entradas, observacion, id_usuario, fecha) VALUES (?, ?, ?, ?, ?);"); 
-    $sentencia->execute([$id_producto, $entradas, $observacion, $id_usuario, $ahora]); 
+    $sentencia = $base_de_datos->prepare("INSERT INTO salidas(id_producto, salidas, observacion, id_usuario, fecha) VALUES (?, ?, ?, ?, ?);"); 
+    $sentencia->execute([$id_producto, $salidas, $observacion, $id_usuario, $ahora]); 
  
-    $sentencia = $base_de_datos->prepare("SELECT id FROM entradas ORDER BY id DESC LIMIT 1;"); 
+    $sentencia = $base_de_datos->prepare("SELECT id FROM salidas ORDER BY id DESC LIMIT 1;"); 
     $sentencia->execute(); 
     $resultado = $sentencia->fetch(PDO::FETCH_OBJ); 
  
      
  
     $sentencia = $base_de_datos->prepare("INSERT INTO producto(existencia) VALUES (?);"); 
-    $sentenciaExistencia = $base_de_datos->prepare("UPDATE producto SET existencia = existencia + ? WHERE id = ?;"); 
+    $sentenciaExistencia = $base_de_datos->prepare("UPDATE producto SET existencia = existencia - ? WHERE id = ?;"); 
  
     
         // Asegúrate de que 'total' y 'cantidad' son valores numéricos válidos 
-        $sentencia->execute([$id_producto, $entradas]); 
-        $sentenciaExistencia->execute([$entradas, $id_producto]); 
+        $sentencia->execute([$id_producto, $salidas]); 
+        $sentenciaExistencia->execute([$salidas, $id_producto]); 
     
  
     $base_de_datos->commit(); 
@@ -56,5 +56,5 @@ try {
  
 unset($_SESSION["carrito"]); 
 $_SESSION["carrito"] = []; 
-header("Location: entradas_aux.php"); 
+header("Location: salidas_aux.php"); 
 }
